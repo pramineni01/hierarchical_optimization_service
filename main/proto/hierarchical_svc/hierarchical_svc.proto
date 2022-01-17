@@ -1,0 +1,84 @@
+syntax = "proto3";
+package optorunpb;
+
+option go_package="optorunpb;optorunpb";
+
+// package hierarchical;
+
+// option go_package="hierarchical;hierarchical";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+import "resources.proto";
+import "collections.proto";
+import "economics.proto";
+import "optorun.proto";
+
+service HierarchicalSvc {
+  rpc RunHierarchical(HierarchicalSvcRequest) returns (HierarchicalSvcResponse) {}
+}
+
+
+// message RunSettings {
+
+//   message SolverSettings {
+//       enum Solver {
+//           SOLVER_UNSPECIFIED = 0; // If no value is set, will default to SOLVER_UNSPECIFIED. This is a default value required by gRPC.
+//           SOLVER_CBC = 1; // Use the "cbc" solver for this optimization run: https://projects.coin-or.org/Cbc
+//           SOLVER_GLPK = 2; // Use the "glpk" solver for this optimization run: https://www.gnu.org/software/glpk/
+//           SOLVER_CPLEX = 3; // Use the "cplex" solver for this optimization run: https://www.ibm.com/analytics/cplex-optimizer
+//           SOLVER_GUROBI = 4; // Use the "gurobi" solver for this optimization run: https://www.gurobi.com/
+//           SOLVER_XPRESS = 5; // Use the "xpress" solver for this optimization run: https://www.solver.com/xpress-solver-engine-lpmip
+//       }
+//       Solver solver = 1; // Choose which Solver to use for this optimization run
+
+//       message SolverParameters { // Specify advanced configurations needed by your solver such as mip gap, time limit, custom solver parameters, etc.
+//           oneof mip_gap {// Likely need to provide an absolute and fractional gap. Should align with most common solver definitions. CBC has allowableGap and ratioGap.
+//               float mip_gap_absolute_gap = 1; // Set absolute mip gap // Can provide as a oneof here or just have both as attributes and use one if both set.
+//               float mip_gap_ratio_gap = 2;// Set mip gap as a ratio
+//           }
+
+//           google.protobuf.Duration time_limit = 3; // Set time limit in seconds
+
+//           string advanced_parameters = 4; // Provide a custom list of solver dependent parameters that we can just additionally pass to the solver
+//       }
+//       SolverParameters solver_parameters = 2; // Specify advanced solver settings, such as mip gap, etc.
+
+//   }
+//   SolverSettings solver_settings = 5;      
+// }
+
+message RunHorizon {
+  google.protobuf.Timestamp horizon_start_time = 1;
+  google.protobuf.Duration base_interval_duration = 2;
+  int64 number_of_intervals = 3;
+}
+
+// message OptoRunSettings {// Specify both RunSettings as well as the Optimization Horizon for this OptoRun
+//   string name = 1;
+//   RunSettings run_settings = 2; 
+//   RunHorizon run_horizon = 3;
+// }
+
+
+
+// Optopy Inputs.
+message HierarchicalSvcRequest {
+  
+  optorunpb.OptoRunSettings settings = 1;
+  repeated optorunpb.InputResource resources = 2;
+  repeated optorunpb.InputCollection collections = 5;
+  optorunpb.InputEconomics economics = 6;
+}
+
+message HierarchicalSvcResponse {
+    enum RunStatus {
+        RUNNING = 0;
+        ERROR = 1;
+    }
+	  RunStatus status = 1;
+    string token = 2;
+    string error_message = 3;
+    string results_path = 4;
+}

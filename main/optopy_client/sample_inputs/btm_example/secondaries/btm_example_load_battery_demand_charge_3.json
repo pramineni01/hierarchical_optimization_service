@@ -1,0 +1,304 @@
+{
+    "settings": {
+        "name": "BTM_LOAD_BATTERY_DEMAND_CHARGE",
+        "run_settings": {
+            "priority": "PRIORITY_HIGH",
+            "token": "ih5o8dkx4dowhal18t9ie24h",
+            "created_at": "2021-06-09T00:00:00Z",
+            "created_by": "ushak1",
+            "generate_trades": false,
+            "solver_settings": {
+                "solver": "SOLVER_GLPK",
+                "solver_parameters": {
+                    "time_limit": "5s",
+                    "mip_gap_absolute_gap": 0.0
+                }
+            }
+        },
+        "run_horizon": {
+            "run_horizon_fmt_3": {
+                "horizon_uniform_intervals": [
+                    "2021-06-08T09:00:00Z",
+                    "2021-06-08T10:00:00Z",
+                    "2021-06-08T11:00:00Z",
+                    "2021-06-08T12:00:00Z"
+                ]
+            }
+        },
+        "output_settings":{
+            "resources":{
+                "operational_schedule_interval_fmt": "interval_values_fmt_1"
+            },
+            "collections":{
+                "operational_schedule_interval_fmt":"interval_values_fmt_1",
+                "product_schedule_interval_fmt": "interval_values_named_fmt_1",
+                "trades_fmt":  "interval_values_named_fmt_1"
+            }
+
+        }
+    },
+    "enrollments": [
+        {
+            "key": "enrollment_10",
+            "name": "TEST_SITE_TARIFF_SCE_BTM_2021",
+            "price_group_keys": ["pricegroup_10"],
+            "collection_keys": ["collection_10"],
+            "timing": {
+                "enrollment_timing_fmt_1": {
+                    "timestamp_start": "2021-06-08T09:00:00Z",
+                    "timestamp_end": "2021-06-08T12:00:00Z"
+                }
+            },
+            "properties": {
+                "existing_peaks":[
+                    {
+                        "price_id": "price_20",
+                        "existing_peak_value": {
+                            "unit": "MW",
+                            "value": 15
+                        }
+                    }
+                ]   
+            }
+        }
+        
+    ], 
+    "commitments": null,
+    "collections": [
+        {
+            "key": "collection_10",
+            "name": "SAMPLE_SITE_1",
+            "type": "COLLECTION_TYPE_SITE",
+            "resource_keys": ["resource_10", "resource_20", "resource_40"],
+            "collection_keys": null,
+            "properties_collection_site": {
+                "max_import_limit_power": {
+                    "constant_value_over_horizon": {
+                        "value": 300,
+                        "unit": "MW"
+                    }
+                },
+                "max_export_limit_power": {
+                    "constant_value_over_horizon": {
+                        "value": 300,
+                        "unit": "MW"
+                    }
+                }
+            }
+        }
+       
+    ],
+    "resources": [
+
+        {
+            "key": "resource_10",
+            "name": "Test_Battery_1",
+            "type": "RESOURCE_TYPE_BATTERY_STORAGE",
+            "properties_storage": {
+                "emissions": null,
+                "initial_soc": {
+                    "value": 20.0,
+                    "unit": "MWH"
+                },
+                "charge_efficiency": {
+                    "value": 0.9,
+                    "unit": "PERUNIT"
+                },
+                "discharge_efficiency":{
+                    "value": 0.9,
+                    "unit": "PERUNIT"
+                },
+                "maximum_energy_limit":{
+                    "constant_value_over_horizon":{
+                        "value": 60,
+                        "unit": "MWH"
+                    }
+                },
+                "minimum_energy_limit":{
+                    "constant_value_over_horizon":{
+                        "value": 20,
+                        "unit": "MWH"
+                    }
+                },
+                "maximum_charge_rate":{
+                    "constant_value_over_horizon":{
+                        "value": 20,
+                        "unit": "MW"
+                    }
+                },
+                "maximum_discharge_rate":{
+                    "constant_value_over_horizon":{
+                        "value": 25,
+                        "unit": "MW"
+                    }
+                },
+                "max_discharge_cycles": [{
+                    "frequency": "FREQUENCY_DAILY",
+                    "number": 3
+                }],
+                "cycling_cost": {
+                    "value": null,
+                    "unit": "DOLLAR_PER_MWH"
+                },
+                "nameplate_energy_capacity": {
+                    "value": 70,
+                    "unit": "MWH"
+                },
+                "nameplate_discharge_max": {
+                    "value": 25,
+                    "unit": "MW"
+                },
+                "nameplate_charge_max": {
+                    "value": 25,
+                    "unit": "MW"
+                },
+                "boundary_condition": false
+            }
+        },
+        {
+            "key": "resource_20",
+            "name": "solar_001",
+            "type": "RESOURCE_TYPE_RENEWABLE_GENERATOR",
+            "properties_renewable_generator": {
+                "curtailable": true,
+                "capacity": {
+                    "constant_value_over_horizon": {
+                        "value": 60,
+                        "unit": "MW"
+                    }
+                },
+                "forecast_output": {
+                    "interval_values_fmt_1": {
+                        "unit": "MW",
+                        "values": [
+                            
+                            {
+                                "value": 17.736842,
+                                "interval_start_time": "2021-06-08T08:00:00Z",
+                                "interval_end_time": "2021-06-08T09:00:00Z"
+                            },
+                            {
+                                "value": 20.263158,
+                                "interval_start_time": "2021-06-08T09:00:00Z",
+                                "interval_end_time": "2021-06-08T10:00:00Z"
+                            },
+                            {
+                                "value": 27.473684,
+                                "interval_start_time": "2021-06-08T10:00:00Z",
+                                "interval_end_time": "2021-06-08T11:00:00Z"
+                            },
+                            {
+                                "value": 35.052632,
+                                "interval_start_time": "2021-06-08T11:00:00Z",
+                                "interval_end_time": "2021-06-08T12:00:00Z"
+                            }
+
+
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "key": "resource_40",
+            "name": "sr_building_load",
+            "type": "RESOURCE_TYPE_STATIC_LOAD",
+            "properties_static_load": {
+                
+                "forecast_load": {
+                    "interval_values_fmt_1": {
+                        "unit": "MW",
+                        "values": [
+                            
+                            {
+                                "value": 22.90811583,
+                                "interval_start_time": "2021-06-08T08:00:00Z",
+                                "interval_end_time": "2021-06-08T09:00:00Z"
+                            },
+                            {
+                                "value": 18.19639238,
+                                "interval_start_time": "2021-06-08T09:00:00Z",
+                                "interval_end_time": "2021-06-08T10:00:00Z"
+                            },
+                            {
+                                "value": 17.8599701,
+                                "interval_start_time": "2021-06-08T10:00:00Z",
+                                "interval_end_time": "2021-06-08T11:00:00Z"
+                            },
+                            {
+                                "value": 17.8599701,
+                                "interval_start_time": "2021-06-08T11:00:00Z",
+                                "interval_end_time": "2021-06-08T12:00:00Z"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+    ],
+    "economics": {
+        "price_groups": [
+            {
+                "key": "pricegroup_10",
+                "name": "sce_gs2_retail_tariff_structure",
+                "type": "PRICEGROUP_TYPE_BTM_TARIFF",
+                "price_keys": [
+                    "price_10",
+                    "price_20"
+                ]
+            }
+        ],
+        "prices": [
+            {
+                "key": "price_10",
+                "name": "sce_gs2_energy_charge",
+                "properties_price_energy": {
+                    "price_values": {
+                        "interval_values_fmt_1": {
+                            "unit": "DOLLAR_PER_MWH",
+                            "values": [
+                               
+                                {
+                                    "value": 0.07771,
+                                    "interval_start_time": "2021-06-08T08:00:00Z",
+                                    "interval_end_time": "2021-06-08T09:00:00Z"
+                                },
+                                {
+                                    "value": 0.07771,
+                                    "interval_start_time": "2021-06-08T09:00:00Z",
+                                    "interval_end_time": "2021-06-08T10:00:00Z"
+                                },
+                                {
+                                    "value": 0.07771,
+                                    "interval_start_time": "2021-06-08T10:00:00Z",
+                                    "interval_end_time": "2021-06-08T11:00:00Z"
+                                },
+                                {
+                                    "value": 0.07771,
+                                    "interval_start_time": "2021-06-08T11:00:00Z",
+                                    "interval_end_time": "2021-06-08T12:00:00Z"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "type": "PRICE_TYPE_ENERGY"
+            },
+            {
+                "key": "price_20",
+                "name": "sce_gs2_demand_charge",
+                "type": "PRICE_TYPE_PEAK",
+                "properties_price_peak": {
+                    "price_values": {
+                        "constant_value_over_horizon": {
+                            "value": 16.0,
+                            "unit": "DOLLAR_PER_MW"
+                        }
+                    }
+                }
+            }
+        ],
+        "venues": []
+    }
+}
